@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.studentManage.mapper.ClassesMapper">
+		<cache></cache>
+		<resultMap id="BaseResultMap" type="com.studentManage.beans.Classes">
+			<id column = 'id' property = 'id' jdbcType = 'INTEGER' />
+<result column = 'classname' property = 'classname' jdbcType = 'VARCHAR' />
+
+		</resultMap>
+		
+	<sql id="Base_Column_List">
+		id,
+		classname
+
+	</sql>
+	<sql id="Base_Column_To_Insert">
+		classname
+
+	</sql>
+	<sql id="default_Column_orderBy">
+		id
+	</sql>
+	
+	<select id="getRowCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+		SELECT COUNT(id) AS "rowCount" FROM  classes  <if test="whereSql!=null">${whereSql}</if>  
+	</select>
+	
+	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from classes
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<!--条件查询-->
+	<select id="selectlist" resultMap="BaseResultMap" parameterType="java.util.Map">
+			select 
+				<if test="selectFields != null">${selectFields}</if>
+				<if test="selectFields == null">
+					<include refid="Base_Column_List" />
+				</if>
+			from t_classes 
+			<if test="whereSql!=null">${whereSql}</if>  
+			<if test="orderBy!=null">${orderBy}</if>
+			<if test="pageSize!=null">
+				limit ${pageSize}
+				offset 
+					<if test="pageIndex!=null">${pageIndex}</if>
+			</if>
+	</select>
+	
+	<!-- 通过Id删除一条数据 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from classes
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<!-- 通过List<String> ids 删除多条数据 -->
+	<delete id="deleteByIds" parameterType="java.util.List">
+		delete from classes
+		where id in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	<!-- 通过对象List 删除多条数据 -->
+	<delete id="deleteList" parameterType="java.util.List">
+		delete from classes
+		where id in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item.id}
+		</foreach>
+	</delete>
+	
+		<!-- 添加一条数据 -->
+	<insert id="insert"  useGeneratedKeys="true" keyProperty="id" parameterType="com.studentManage.beans.Classes">
+		insert into t_classes (
+		<include refid="Base_Column_To_Insert" />
+		)
+		values (#{classname,jdbcType=VARCHAR}
+) 
+	</insert>
+	
+	<insert id="insertSelective"  parameterType="com.studentManage.beans.Classes">
+		insert into classes
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test='classname != null'>classname</if>
+
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test='classname != null'>#{classname,jdbcType=VARCHAR}</if>
+
+		</trim>
+	</insert>
+	
+	<insert id="insertList"   parameterType="java.util.List">
+		insert into t_classes ( 
+			<include refid="Base_Column_To_Insert" />
+		)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			#{item.classname,jdbcType=VARCHAR}
+ 
+		</foreach>
+	</insert>
+	
+	<insert id="insertSelectiveList"  parameterType="java.util.List">
+	
+		<foreach collection="list" item="item" index="index" separator=";">
+			insert into classes
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test='item.classname != null'>classname</if>
+
+			</trim>
+			<trim prefix="values (" suffix=")" suffixOverrides=",">
+				<if test='item.classname != null'>#{item.classname,jdbcType=VARCHAR}</if>
+ 
+			</trim>
+		</foreach>
+	</insert>
+	
+	<update id="updateByIdSelective" parameterType="com.studentManage.beans.Classes">
+		update classes
+		<set>
+			<if test='classname != null'>classname = #{classname,jdbcType=VARCHAR},</if>
+
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateById" parameterType="com.studentManage.beans.Classes">
+		update classes
+		set id = #{id,jdbcType=INTEGER},classname = #{classname,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateByList" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index"
+			separator=";">
+			update classes
+			set id = #{item.id,jdbcType=INTEGER},classname = #{item.classname,jdbcType=VARCHAR}
+			where id =
+			#{item.id}
+		</foreach>
+	</update>
+	
+	
+</mapper>
