@@ -22,13 +22,13 @@
 	</sql>
 	
 	<select id="getRowCount" resultType="java.lang.Integer" parameterType="java.util.Map">
-		SELECT COUNT(id) AS "rowCount" FROM  classes  <if test="whereSql!=null">${whereSql}</if>  
+		SELECT COUNT(id) AS "rowCount" FROM  t_class  <if test="whereSql!=null">${whereSql}</if>  
 	</select>
 	
 	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
 		select
 		<include refid="Base_Column_List" />
-		from classes
+		from t_class
 		where id = #{id,jdbcType=INTEGER}
 	</select>
 	
@@ -39,7 +39,7 @@
 				<if test="selectFields == null">
 					<include refid="Base_Column_List" />
 				</if>
-			from t_classes 
+			from t_class 
 			<if test="whereSql!=null">${whereSql}</if>  
 			<if test="orderBy!=null">${orderBy}</if>
 			<if test="pageSize!=null">
@@ -51,13 +51,13 @@
 	
 	<!-- 通过Id删除一条数据 -->
 	<delete id="deleteById" parameterType="java.lang.Integer">
-		delete from classes
+		delete from t_class
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
 	
 	<!-- 通过List<String> ids 删除多条数据 -->
 	<delete id="deleteByIds" parameterType="java.util.List">
-		delete from classes
+		delete from t_class
 		where id in
 		<foreach collection="list" index="index" item="item" open="("
 			separator="," close=")">
@@ -66,7 +66,7 @@
 	</delete>
 	<!-- 通过对象List 删除多条数据 -->
 	<delete id="deleteList" parameterType="java.util.List">
-		delete from classes
+		delete from t_class
 		where id in
 		<foreach collection="list" index="index" item="item" open="("
 			separator="," close=")">
@@ -76,7 +76,7 @@
 	
 		<!-- 添加一条数据 -->
 	<insert id="insert"  useGeneratedKeys="true" keyProperty="id" parameterType="com.studentManage.beans.Classes">
-		insert into t_classes (
+		insert into t_class (
 		<include refid="Base_Column_To_Insert" />
 		)
 		values (#{classname,jdbcType=VARCHAR}
@@ -84,7 +84,7 @@
 	</insert>
 	
 	<insert id="insertSelective"  parameterType="com.studentManage.beans.Classes">
-		insert into classes
+		insert into t_class
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test='classname != null'>classname</if>
 
@@ -96,7 +96,7 @@
 	</insert>
 	
 	<insert id="insertList"   parameterType="java.util.List">
-		insert into t_classes ( 
+		insert into t_class ( 
 			<include refid="Base_Column_To_Insert" />
 		)
 		values
@@ -110,7 +110,7 @@
 	<insert id="insertSelectiveList"  parameterType="java.util.List">
 	
 		<foreach collection="list" item="item" index="index" separator=";">
-			insert into classes
+			insert into t_class
 			<trim prefix="(" suffix=")" suffixOverrides=",">
 				<if test='item.classname != null'>classname</if>
 
@@ -123,7 +123,7 @@
 	</insert>
 	
 	<update id="updateByIdSelective" parameterType="com.studentManage.beans.Classes">
-		update classes
+		update t_class
 		<set>
 			<if test='classname != null'>classname = #{classname,jdbcType=VARCHAR},</if>
 
@@ -131,7 +131,7 @@
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 	<update id="updateById" parameterType="com.studentManage.beans.Classes">
-		update classes
+		update t_class
 		set id = #{id,jdbcType=INTEGER},classname = #{classname,jdbcType=VARCHAR}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
@@ -139,7 +139,7 @@
 	<update id="updateByList" parameterType="java.util.List">
 		<foreach collection="list" item="item" index="index"
 			separator=";">
-			update classes
+			update t_class
 			set id = #{item.id,jdbcType=INTEGER},classname = #{item.classname,jdbcType=VARCHAR}
 			where id =
 			#{item.id}

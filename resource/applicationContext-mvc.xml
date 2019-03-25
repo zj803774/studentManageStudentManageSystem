@@ -29,10 +29,10 @@ xmlns:context="http://www.springframework.org/schema/context"
 		  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		  	 <!-- 配置前缀和后缀 -->
 		  	 <property name="prefix">
-		  	 	<value>/WEB-INF/views/</value>
+		  	 	<value>/html/</value>
 		  	 </property>
 		  	  <property name="suffix">
-		  	 	<value>.jsp</value>
+		  	 	<value>.html</value>
 		  	 </property>
 		  </bean>
              <!--文件上传配置 -->
