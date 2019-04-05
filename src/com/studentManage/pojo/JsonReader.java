@@ -7,7 +7,7 @@ import java.util.List;
  * @author 张金
  *
  */
-public class JsonReader<T> {
+public class JsonReader<T> {  
 	/**
 	 * 总页数
 	 */
